@@ -1,21 +1,19 @@
-var express = require('express');
-var router = express.Router();
-const { DialogflowApp } = require('actions-on-google');
+"use strict";
 
-router.post('/', function(req, res, next) {
-    const NAME_ACTION = 'make_name';
-    const COLOR_ARGUMENT = 'color';
-    const NUMBER_ARGUMENT = 'number';
-    const app = new DialogflowApp({ request: req, response: res });
-    
-    let actionMap = new Map();
-    actionMap.set(NAME_ACTION, () => {
-        let number = app.getArgument(NUMBER_ARGUMENT);
-        let color = app.getArgument(COLOR_ARGUMENT);
-        app.tell(`Alright, your silly name is ${color} ${number} ! I hope you like it. See you next time.`);
-    });
+const { dialogflow } = require('actions-on-google');
+const app = dialogflow({ debug: true });
 
-    app.handleRequest(actionMap);
+app.intent('weater', (conv, params) => {
+    console.log('L7', params);
+    conv.close('How are you?');
+});
+app.intent('enable_guest_wifi', (conv, params) => {
+    conv.ask("my question");
+    conv.close(`Alright, your silly name is ${color} ${number}! I hope you like it. See you next time.`);
 });
 
-module.exports = router;
+app.intent('make_name', (conv, {color, number}) => {
+    conv.close(`Alright, your silly name is ${color} ${number}! I hope you like it. See you next time.`);
+});
+
+module.exports = app;

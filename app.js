@@ -1,12 +1,14 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
 
-var customApi = require('./routes/customApi');
+let customApi = require('./routes/customApi');
+let sampleApi = require('./routes/sample');
+let routes = require('./routes');
 
-var app = express();
+let app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -14,6 +16,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/api/custom-api', customApi);
+app.use('/api/custom-sample', sampleApi);
+
+let i = 1;
+while (i <= 11) {
+  let str = 'demo' + i;
+  app.use(`/api/${str}`, routes[str]);
+  i++;
+}
+
+app.use('*', function(req, res, next) {
+  res.json({data: 'Hello Google!'});
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

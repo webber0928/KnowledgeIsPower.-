@@ -4,7 +4,7 @@
 
 2. 打開 app store 建立你的美國帳號
 
-[step1]!(../public/img/申請美國app store_180502_0006.jpg)
+![step1](../public/img/申請美國app store_180502_0006.jpg)
 
 3. 填寫基本資料
 

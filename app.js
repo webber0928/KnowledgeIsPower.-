@@ -4,8 +4,8 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
-let customApi = require('./routes/customApi');
-let sampleApi = require('./routes/sample');
+// let customApi = require('./routes/customApi');
+// let sampleApi = require('./routes/sample');
 let routes = require('./routes');
 
 let app = express();
@@ -15,15 +15,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/api/custom-api', customApi);
-app.use('/api/custom-sample', sampleApi);
+// app.use('/api/custom-api', customApi);
+// app.use('/api/custom-sample', sampleApi, sampleApi);
 
-let i = 1;
-while (i <= 11) {
-  let str = 'demo' + i;
-  app.use(`/api/${str}`, routes[str]);
-  i++;
-}
+// app.use(`/api/demo1`, routes['demo1']);
+// app.use(`/api/demo2`, routes['demo2']);
+// app.use(`/api/demo3`, routes['demo3']);
+// app.use(`/api/demo4`, routes['demo4']);
+// app.use(`/api/demo5`, routes['demo5']);
+// app.use(`/api/demo6`, routes['demo6']);
+// app.use(`/api/demo7`, routes['demo7']);
+app.use(`/api/demo8`, routes['demo8'].checkGoogleHomeOAuth, routes['demo8'].pretreat, routes['demo8']);
+// app.use(`/api/demo9`, routes['demo9']);
+app.use(`/api/demo10`, routes['demo10'].pretreat);
+// app.use(`/api/demo10`, routes['demo10'].pretreat, routes['demo10']);
+app.use(`/api/demo11`, routes['demo11'].pretreat, routes['demo11']);
 
 app.use('*', function(req, res, next) {
   res.json({data: 'Hello Google!'});
